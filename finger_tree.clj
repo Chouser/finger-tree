@@ -85,6 +85,17 @@
                        (::v ^n))))))
     (single t a)))
 
+(defn headl [t]
+  (when-not (ft-empty? t)
+    ((t 0) 0)))
+
+(defn taill [t]
+  (when-not (ft-empty? t)
+    (let [[l m r cache-fns m-vals] t]
+      (if (single? l m r)
+        (deep-tree [] nil [] cache-fns nil)
+        (deep-tree (apply node cache-fns (next l)) m r cache-fns m-vals)))))
+
 (defn finger-tree [cache-fns & xs]
   (reduce conjr (deep-tree [] nil [] cache-fns nil) xs))
 
